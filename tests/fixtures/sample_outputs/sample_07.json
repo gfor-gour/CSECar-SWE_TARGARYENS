@@ -1,0 +1,18 @@
+{
+  "ticket_id": "TKT-007",
+  "relevant_transaction_id": "TXN-9701",
+  "evidence_verdict": "consistent",
+  "case_type": "agent_cash_in_issue",
+  "severity": "high",
+  "department": "agent_operations",
+  "agent_summary": "Customer reports 2000 BDT cash-in via AGENT-318 (TXN-9701) not reflected in balance. Transaction status is pending. Agent claims funds were sent.",
+  "recommended_next_action": "Investigate TXN-9701 pending status with agent operations. Confirm settlement state and resolve within the standard cash-in SLA.",
+  "customer_reply": "আপনার লেনদেন TXN-9701 এর বিষয়ে আমরা অবগত হয়েছি। আমাদের এজেন্ট অপারেশন্স দল এটি দ্রুত যাচাই করবে এবং অফিসিয়াল চ্যানেলে আপনাকে জানাবে। অনুগ্রহ করে কারো সাথে আপনার পিন বা ওটিপি শেয়ার করবেন না।",
+  "human_review_required": true,
+  "confidence": 0.88,
+  "reason_codes": [
+    "agent_cash_in",
+    "pending_transaction",
+    "agent_ops"
+  ]
+}

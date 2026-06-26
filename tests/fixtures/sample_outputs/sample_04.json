@@ -1,0 +1,17 @@
+{
+  "ticket_id": "TKT-004",
+  "relevant_transaction_id": "TXN-9401",
+  "evidence_verdict": "consistent",
+  "case_type": "refund_request",
+  "severity": "low",
+  "department": "customer_support",
+  "agent_summary": "Customer requests refund of 500 BDT for TXN-9401 (merchant payment) due to change of mind. Not a service failure.",
+  "recommended_next_action": "Inform the customer that refund eligibility depends on the merchant's own policy. Provide guidance on contacting the merchant directly for a refund.",
+  "customer_reply": "Thank you for reaching out. Refunds for completed merchant payments depend on the merchant's own policy. We recommend contacting the merchant directly. If you need help reaching them, please reply and we will guide you. Please do not share your PIN or OTP with anyone.",
+  "human_review_required": false,
+  "confidence": 0.85,
+  "reason_codes": [
+    "refund_request",
+    "merchant_policy_dependent"
+  ]
+}

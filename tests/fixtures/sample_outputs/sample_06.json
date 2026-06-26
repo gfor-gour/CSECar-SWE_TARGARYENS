@@ -1,0 +1,17 @@
+{
+  "ticket_id": "TKT-006",
+  "relevant_transaction_id": null,
+  "evidence_verdict": "insufficient_data",
+  "case_type": "other",
+  "severity": "low",
+  "department": "customer_support",
+  "agent_summary": "Customer reports a vague concern about their money without specifying transaction, amount, or issue. Insufficient detail to identify any relevant transaction.",
+  "recommended_next_action": "Reply to customer asking for specific details: which transaction, what amount, what went wrong, and approximate time.",
+  "customer_reply": "Thank you for reaching out. To help you faster, please share the transaction ID, the amount involved, and a short description of what went wrong. Please do not share your PIN or OTP with anyone.",
+  "human_review_required": false,
+  "confidence": 0.6,
+  "reason_codes": [
+    "vague_complaint",
+    "needs_clarification"
+  ]
+}

@@ -46,27 +46,10 @@ uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 
 ---
 
-## Running with Docker
-
-### Docker Build & Run
-To run the server inside a Docker container:
-```bash
-docker build -t queuestorm-api .
-docker run -p 8000:8000 --env-file .env queuestorm-api
-```
-
-### Docker Compose
-Alternatively, run with docker-compose:
-```bash
-docker-compose up --build
-```
-
----
-
 ## Testing
 
 ### Run Sample Cases Runner
-To test the API against all 10 sample cases, first ensure the API is running locally or in Docker at `http://localhost:8000`, then run:
+To test the API against all 10 sample cases, first ensure the API is running locally at `http://localhost:8000`, then run:
 ```bash
 python tests/test_sample_cases.py
 ```

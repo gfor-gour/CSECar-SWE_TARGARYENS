@@ -1,0 +1,17 @@
+{
+  "ticket_id": "TKT-008",
+  "relevant_transaction_id": null,
+  "evidence_verdict": "insufficient_data",
+  "case_type": "wrong_transfer",
+  "severity": "medium",
+  "department": "dispute_resolution",
+  "agent_summary": "Customer reports a 1000 BDT transfer to their brother was not received. Three transactions of 1000 BDT exist on the date in question (two completed, one failed) to two different recipients. Cannot determine which is the brother's number without further input.",
+  "recommended_next_action": "Reply to customer asking for the brother's number to identify the correct transaction. Do not initiate dispute until the transaction is confirmed.",
+  "customer_reply": "Thank you for reaching out. We see multiple transactions of 1000 BDT on that date. Could you share your brother's number so we can identify the right transaction? Please do not share your PIN or OTP with anyone.",
+  "human_review_required": false,
+  "confidence": 0.65,
+  "reason_codes": [
+    "ambiguous_match",
+    "needs_clarification"
+  ]
+}

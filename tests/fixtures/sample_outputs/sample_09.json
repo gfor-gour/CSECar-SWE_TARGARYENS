@@ -1,0 +1,18 @@
+{
+  "ticket_id": "TKT-009",
+  "relevant_transaction_id": "TXN-9901",
+  "evidence_verdict": "consistent",
+  "case_type": "merchant_settlement_delay",
+  "severity": "medium",
+  "department": "merchant_operations",
+  "agent_summary": "Merchant reports yesterday's 15000 BDT settlement (TXN-9901) is delayed beyond the standard 11 AM next-day window. Settlement status is pending.",
+  "recommended_next_action": "Route to merchant_operations to verify settlement batch status. If the batch is delayed, communicate a revised ETA to the merchant.",
+  "customer_reply": "We have noted your concern about settlement TXN-9901. Our merchant operations team will check the batch status and update you on the expected settlement time through official channels.",
+  "human_review_required": false,
+  "confidence": 0.92,
+  "reason_codes": [
+    "merchant_settlement",
+    "delay",
+    "pending"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "ticket_id": "TKT-003",
+  "relevant_transaction_id": "TXN-9301",
+  "evidence_verdict": "consistent",
+  "case_type": "payment_failed",
+  "severity": "high",
+  "department": "payments_ops",
+  "agent_summary": "Customer attempted a 1200 BDT mobile recharge (TXN-9301) which failed, but reports balance was deducted. Requires payments operations investigation.",
+  "recommended_next_action": "Investigate TXN-9301 ledger status. If balance was deducted on a failed payment, initiate the automatic reversal flow within standard SLA.",
+  "customer_reply": "We have noted that transaction TXN-9301 may have caused an unexpected balance deduction. Our payments team will review the case and any eligible amount will be returned through official channels. Please do not share your PIN or OTP with anyone.",
+  "human_review_required": false,
+  "confidence": 0.9,
+  "reason_codes": [
+    "payment_failed",
+    "potential_balance_deduction"
+  ]
+}

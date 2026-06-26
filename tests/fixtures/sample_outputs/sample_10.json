@@ -1,0 +1,17 @@
+{
+  "ticket_id": "TKT-010",
+  "relevant_transaction_id": "TXN-10002",
+  "evidence_verdict": "consistent",
+  "case_type": "duplicate_payment",
+  "severity": "high",
+  "department": "payments_ops",
+  "agent_summary": "Customer reports duplicate electricity bill payment. Two identical 850 BDT payments to BILLER-DESCO were completed 12 seconds apart (TXN-10001 and TXN-10002). The second is likely the duplicate.",
+  "recommended_next_action": "Verify the duplicate with payments_ops. If the biller confirms only one payment was received, initiate reversal of TXN-10002.",
+  "customer_reply": "We have noted the possible duplicate payment for transaction TXN-10002. Our payments team will verify with the biller and any eligible amount will be returned through official channels. Please do not share your PIN or OTP with anyone.",
+  "human_review_required": true,
+  "confidence": 0.93,
+  "reason_codes": [
+    "duplicate_payment",
+    "biller_verification_required"
+  ]
+}
