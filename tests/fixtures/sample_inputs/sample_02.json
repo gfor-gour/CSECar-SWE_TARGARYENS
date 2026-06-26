@@ -1,0 +1,33 @@
+{
+  "ticket_id": "TKT-002",
+  "complaint": "I sent 2000 to the wrong person by mistake. Please reverse it.",
+  "language": "en",
+  "channel": "in_app_chat",
+  "user_type": "customer",
+  "transaction_history": [
+    {
+      "transaction_id": "TXN-9202",
+      "timestamp": "2026-04-14T11:30:00Z",
+      "type": "transfer",
+      "amount": 2000,
+      "counterparty": "+8801812345678",
+      "status": "completed"
+    },
+    {
+      "transaction_id": "TXN-9180",
+      "timestamp": "2026-04-10T09:15:00Z",
+      "type": "transfer",
+      "amount": 2500,
+      "counterparty": "+8801812345678",
+      "status": "completed"
+    },
+    {
+      "transaction_id": "TXN-9145",
+      "timestamp": "2026-04-05T17:45:00Z",
+      "type": "transfer",
+      "amount": 1500,
+      "counterparty": "+8801812345678",
+      "status": "completed"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "ticket_id": "TKT-003",
+  "complaint": "I tried to pay 1200 taka for my mobile recharge but the app showed failed. But my balance was deducted! Please refund my money.",
+  "language": "en",
+  "channel": "in_app_chat",
+  "user_type": "customer",
+  "transaction_history": [
+    {
+      "transaction_id": "TXN-9301",
+      "timestamp": "2026-04-14T16:00:00Z",
+      "type": "payment",
+      "amount": 1200,
+      "counterparty": "MERCHANT-MOBILE-OP",
+      "status": "failed"
+    }
+  ]
+}

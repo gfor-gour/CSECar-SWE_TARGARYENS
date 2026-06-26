@@ -1,0 +1,17 @@
+{
+  "ticket_id": "TKT-007",
+  "complaint": "আমি আজ সকালে এজেন্টের কাছে ২০০০ টাকা ক্যাশ ইন করেছি কিন্তু আমার ব্যালেন্সে টাকা আসেনি। এজেন্ট বলছে টাকা পাঠিয়েছে কিন্তু আমি দেখছি না।",
+  "language": "bn",
+  "channel": "call_center",
+  "user_type": "customer",
+  "transaction_history": [
+    {
+      "transaction_id": "TXN-9701",
+      "timestamp": "2026-04-14T09:30:00Z",
+      "type": "cash_in",
+      "amount": 2000,
+      "counterparty": "AGENT-318",
+      "status": "pending"
+    }
+  ]
+}

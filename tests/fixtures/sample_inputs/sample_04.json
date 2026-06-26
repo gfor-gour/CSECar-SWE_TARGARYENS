@@ -1,0 +1,17 @@
+{
+  "ticket_id": "TKT-004",
+  "complaint": "I paid 500 to a merchant for a product but I changed my mind and don't want it anymore. Please refund my 500 taka.",
+  "language": "en",
+  "channel": "in_app_chat",
+  "user_type": "customer",
+  "transaction_history": [
+    {
+      "transaction_id": "TXN-9401",
+      "timestamp": "2026-04-14T13:00:00Z",
+      "type": "payment",
+      "amount": 500,
+      "counterparty": "MERCHANT-7821",
+      "status": "completed"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "ticket_id": "TKT-008",
+  "complaint": "I sent 1000 to my brother yesterday but he says he didn't get it. Please check.",
+  "language": "en",
+  "channel": "in_app_chat",
+  "user_type": "customer",
+  "transaction_history": [
+    {
+      "transaction_id": "TXN-9801",
+      "timestamp": "2026-04-13T11:20:00Z",
+      "type": "transfer",
+      "amount": 1000,
+      "counterparty": "+8801712001122",
+      "status": "completed"
+    },
+    {
+      "transaction_id": "TXN-9802",
+      "timestamp": "2026-04-13T19:45:00Z",
+      "type": "transfer",
+      "amount": 1000,
+      "counterparty": "+8801812334455",
+      "status": "completed"
+    },
+    {
+      "transaction_id": "TXN-9803",
+      "timestamp": "2026-04-13T20:10:00Z",
+      "type": "transfer",
+      "amount": 1000,
+      "counterparty": "+8801712001122",
+      "status": "failed"
+    }
+  ]
+}

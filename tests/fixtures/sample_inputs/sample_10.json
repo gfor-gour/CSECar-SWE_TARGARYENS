@@ -1,0 +1,25 @@
+{
+  "ticket_id": "TKT-010",
+  "complaint": "I paid my electricity bill 850 taka but it deducted twice from my account. Please check, I only paid once.",
+  "language": "en",
+  "channel": "in_app_chat",
+  "user_type": "customer",
+  "transaction_history": [
+    {
+      "transaction_id": "TXN-10001",
+      "timestamp": "2026-04-14T08:15:30Z",
+      "type": "payment",
+      "amount": 850,
+      "counterparty": "BILLER-DESCO",
+      "status": "completed"
+    },
+    {
+      "transaction_id": "TXN-10002",
+      "timestamp": "2026-04-14T08:15:42Z",
+      "type": "payment",
+      "amount": 850,
+      "counterparty": "BILLER-DESCO",
+      "status": "completed"
+    }
+  ]
+}

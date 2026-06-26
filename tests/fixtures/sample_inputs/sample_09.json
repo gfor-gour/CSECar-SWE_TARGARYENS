@@ -1,0 +1,17 @@
+{
+  "ticket_id": "TKT-009",
+  "complaint": "I am a merchant. My yesterday's sales of 15000 taka have not been settled to my account. Settlement usually happens by 11am next day. Please check.",
+  "language": "en",
+  "channel": "merchant_portal",
+  "user_type": "merchant",
+  "transaction_history": [
+    {
+      "transaction_id": "TXN-9901",
+      "timestamp": "2026-04-13T18:00:00Z",
+      "type": "settlement",
+      "amount": 15000,
+      "counterparty": "MERCHANT-SELF",
+      "status": "pending"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "ticket_id": "TKT-006",
+  "complaint": "Something is wrong with my money. Please check.",
+  "language": "en",
+  "channel": "in_app_chat",
+  "user_type": "customer",
+  "transaction_history": [
+    {
+      "transaction_id": "TXN-9601",
+      "timestamp": "2026-04-13T10:00:00Z",
+      "type": "cash_in",
+      "amount": 3000,
+      "counterparty": "AGENT-220",
+      "status": "completed"
+    },
+    {
+      "transaction_id": "TXN-9602",
+      "timestamp": "2026-04-12T15:30:00Z",
+      "type": "transfer",
+      "amount": 800,
+      "counterparty": "+8801911223344",
+      "status": "completed"
+    }
+  ]
+}
