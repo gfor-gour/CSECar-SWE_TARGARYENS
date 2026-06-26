@@ -731,22 +731,32 @@ def requires_human_review(
     has_transactions: bool,
     user_type: Optional[str] = None,
     reason_codes: Optional[list[str]] = None,
+    matched_txn_present: bool = False,
 ) -> bool:
     """
     Return True if a human agent must review this ticket before action.
 
     Rules (priority order):
-      - phishing/SE                                     → True (always)
-      - verdict == inconsistent                         → True (the customer's
-        claim contradicts system evidence; needs human judgment)
-      - agent_cash_in_issue + pending/failed status     → True
-      - critical severity (non-phishing)                → True
-      - wrong_transfer with established_recipient_pattern → True
-      - empty history + phishing-flavored language      → True
-      - otherwise                                       → False
-        (high-severity payment_failed, merchant_settlement_delay, etc. are
-         handled automatically by the respective ops team; vague complaints
-         are first sent back to the customer for clarification)
+      - phishing/SE                                          → True (always)
+      - verdict == inconsistent                              → True
+      - case_type == agent_cash_in_issue                     → True
+      - case_type == duplicate_payment                       → True (financial
+        reversal needs human; SAMPLE-10 spec)
+      - case_type == wrong_transfer + matched_txn_present    → True
+        (dispute can be initiated; SAMPLE-01 spec)
+      - case_type == wrong_transfer + insufficient_data      → False
+        (ambiguous match — ask customer for clarification first;
+         SAMPLE-08 spec)
+      - case_type == refund_request + matched_txn_present    → True
+        (refund adjudication needs human approval)
+      - case_type == refund_request + no matched txn         → False
+        (handled automatically by customer_support guidance;
+         SAMPLE-04 spec)
+      - severity == critical (non-phishing)                  → True
+      - wrong_transfer + established_recipient_pattern       → True
+      - otherwise                                             → False
+        (payment_failed, merchant_settlement_delay handled by ops
+         automatically; vague complaints ask for clarification first)
     """
     if case_type == "phishing_or_social_engineering":
         return True
@@ -754,6 +764,12 @@ def requires_human_review(
         return True
     if case_type == "agent_cash_in_issue":
         return True
+    if case_type == "duplicate_payment":
+        return True
+    if case_type == "wrong_transfer":
+        return matched_txn_present
+    if case_type == "refund_request":
+        return matched_txn_present
     if severity == "critical":
         return True
     if reason_codes and "established_recipient_pattern" in reason_codes:
@@ -1110,7 +1126,7 @@ def analyze_ticket(ticket: TicketRequest) -> TicketResponse:
         case_type, verdict, matched, confidence, ticket.complaint,
     )
 
-    # Component 6: human review
+    # Component 6: human review (initial — uses verdict_reasons)
     human_review = requires_human_review(
         case_type=case_type,
         severity=severity,
@@ -1118,6 +1134,8 @@ def analyze_ticket(ticket: TicketRequest) -> TicketResponse:
         confidence=confidence,
         has_transactions=bool(transactions),
         user_type=ticket.user_type,
+        reason_codes=verdict_reasons,
+        matched_txn_present=matched is not None,
     )
 
     # Component 7: agent summary (internal — may include transaction_id)

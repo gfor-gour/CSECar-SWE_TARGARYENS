@@ -4,6 +4,7 @@ Covers all 10 sample cases from SUST_Preli_Sample_Cases.json plus edge cases
 (empty history, phishing, duplicate payment, vague complaint, etc.).
 """
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -97,15 +98,31 @@ def test_sample_case_human_review(num, sample_cases):
 
 # ---------- Safety-rule tests for customer_reply ----------
 
-# Forbidden phrases per spec page 8-9
-FORBIDDEN_PHRASES = [
-    "we will refund",
-    "we will reverse",
-    "share your pin",
-    "share your otp",
-    "share your password",
-    "send your otp",
-    "send your pin",
+# Forbidden patterns per spec page 8-9. The patterns use word boundaries
+# so the safety tail "Please do not share your PIN or OTP" is correctly
+# treated as a *warning*, not as the forbidden imperative "share your PIN".
+# We assert "share your PIN" only when NOT preceded by "do not" / "never".
+FORBIDDEN_REFUND_PROMISES = [
+    r"\bwe will refund\b",
+    r"\bwe will reverse\b",
+    r"\bwe will unblock\b",
+    r"\bwill be refunded\b",  # promising a refund
+    r"\byour account will be (unblocked|restored)\b",
+]
+# We deliberately allow the safety tail phrase "do not share your PIN"
+# so the test does NOT false-positive on the warning itself.
+# Therefore each pattern uses negative lookbehind for "do not" and "never".
+FORBIDDEN_CREDENTIAL_REQUESTS = [
+    r"(?<!do not )(?:please\s+)?share your (?:pin|otp|password)",
+    r"(?<!do not )(?:please\s+)?send your (?:pin|otp|password)",
+    r"(?<!do not )(?:please\s+)?share (?:us )?your (?:pin|otp|password)",
+    r"(?<!do not )tell me your (?:pin|otp|password)",
+    r"(?<!never )(?:please\s+)?share your (?:pin|otp|password)",
+    r"(?<!never )(?:please\s+)?share (?:us )?your (?:pin|otp|password)",
+]
+FORBIDDEN_THIRD_PARTY = [
+    r"call\s+\+?\d{6,}",          # a specific phone number to call
+    r"contact\s+[A-Z]{3,}-\d+",  # a specific agent/merchant code to contact
 ]
 
 
@@ -115,11 +132,17 @@ def test_customer_reply_safety(num, sample_cases):
     case = next(c for c in sample_cases if c["id"] == f"SAMPLE-{num:02d}")
     ticket = TicketRequest(**case["input"])
     resp = analyze_ticket(ticket)
-    reply_lower = resp.customer_reply.lower()
-    for bad in FORBIDDEN_PHRASES:
-        assert bad not in reply_lower, (
-            f"SAMPLE-{num:02d}: customer_reply contains forbidden phrase "
-            f"'{bad}': {resp.customer_reply!r}"
+    reply = resp.customer_reply
+
+    for pattern in FORBIDDEN_REFUND_PROMISES + FORBIDDEN_THIRD_PARTY:
+        assert not re.search(pattern, reply, re.IGNORECASE), (
+            f"SAMPLE-{num:02d}: customer_reply matches forbidden pattern "
+            f"'{pattern}': {reply!r}"
+        )
+    for pattern in FORBIDDEN_CREDENTIAL_REQUESTS:
+        assert not re.search(pattern, reply, re.IGNORECASE), (
+            f"SAMPLE-{num:02d}: customer_reply requests credentials via "
+            f"'{pattern}': {reply!r}"
         )
 
 
@@ -160,9 +183,11 @@ def test_empty_transaction_history_phishing():
     assert "PIN" in resp.customer_reply or "OTP" in resp.customer_reply
 
 
-def test_empty_history_vague_customer_escalates_to_human():
+def test_empty_history_vague_customer_asks_for_clarification():
     """Vague customer complaint with no history: case_type=other,
-    severity=low, but human review is required because customer+no txns."""
+    severity=low, asks for clarification. Does NOT require human review
+    (the customer is asked for more details first; this matches
+    SAMPLE-06's expected behavior)."""
     ticket = _make_ticket(
         ticket_id="TKT-EDGE-2",
         complaint="Help, my money disappeared.",
@@ -172,8 +197,10 @@ def test_empty_history_vague_customer_escalates_to_human():
     )
     resp = analyze_ticket(ticket)
     assert resp.case_type == "other"
-    assert resp.human_review_required is True
+    assert resp.human_review_required is False
     assert resp.relevant_transaction_id is None
+    # Customer reply asks for the transaction ID (no leak; we don't have one)
+    assert "transaction id" in resp.customer_reply.lower()
 
 
 def test_duplicate_payment_identifies_second_txn():
