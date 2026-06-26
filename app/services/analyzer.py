@@ -1186,6 +1186,71 @@ def analyze_ticket(ticket: TicketRequest) -> TicketResponse:
         language=ticket.language,
     )
 
+    # Optional AI-layer augmentation. The AI layer is OFF by default
+    # (LLM_ENABLED=false). When OFF this entire block is a no-op and
+    # the deterministic customer_reply, agent_summary, and
+    # recommended_next_action computed above are returned unchanged.
+    # When ON and a usable result comes back inside the time budget,
+    # the three text fields are rewritten. Any failure (timeout,
+    # disabled flag, exception, unsafe output) keeps the
+    # deterministic values so the contract is preserved.
+    try:
+        from app.core.config import settings as _settings  # noqa: WPS433
+        if getattr(_settings, "llm_enabled", False):
+            from app.services.ai import generate_ai_fields  # noqa: WPS433
+            import asyncio as _asyncio  # noqa: WPS433
+
+            _ctx = dict(
+                case_type=case_type,
+                evidence_verdict=verdict,
+                severity=severity,
+                department=department,
+                human_review_required=human_review,
+                language=ticket.language,
+                reason_codes=list(reason_codes),
+                confidence=float(confidence),
+            )
+            try:
+                _loop = _asyncio.get_running_loop()
+                _task = _asyncio.ensure_future(
+                    generate_ai_fields(
+                        complaint=ticket.complaint,
+                        backend_context=_ctx,
+                        transaction_id=(matched.transaction_id if matched else None),
+                        counterparty=(matched.counterparty if matched else None),
+                        amount=(matched.amount if matched else None),
+                    )
+                )
+                _done, _ = _asyncio.wait({_task}, timeout=6.0)
+                if _done:
+                    _ai = _task.result()
+                else:
+                    _task.cancel()
+                    _ai = None
+            except RuntimeError:
+                # No running loop (synchronous call path) — run it.
+                _ai = _asyncio.run(
+                    generate_ai_fields(
+                        complaint=ticket.complaint,
+                        backend_context=_ctx,
+                        transaction_id=(matched.transaction_id if matched else None),
+                        counterparty=(matched.counterparty if matched else None),
+                        amount=(matched.amount if matched else None),
+                    )
+                )
+
+            if isinstance(_ai, dict):
+                if _ai.get("agent_summary"):
+                    agent_summary = _ai["agent_summary"]
+                if _ai.get("recommended_next_action"):
+                    next_action = _ai["recommended_next_action"]
+                if _ai.get("customer_reply"):
+                    customer_reply = _ai["customer_reply"]
+    except Exception:
+        # Defence in depth: NEVER let the AI layer break the
+        # deterministic pipeline. The values computed above stand.
+        pass
+
     # Clamp confidence to [0.0, 1.0]
     confidence = max(0.0, min(1.0, float(confidence)))
 

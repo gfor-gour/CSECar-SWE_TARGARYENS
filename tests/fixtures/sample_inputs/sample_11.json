@@ -1,0 +1,17 @@
+{
+    "ticket_id": "TKT-011",
+    "complaint": "Bhai, BKash thika 5000 tk send money korci amar ammu re. Kintu ammur kace mssg jay nai, amr account thika taka thiki kete nise. Transaction history te status completed dekhay keno?",
+    "language": "banglish",
+    "channel": "in_app_chat",
+    "user_type": "customer",
+    "transaction_history": [
+        {
+            "transaction_id": "TXN-10003",
+            "timestamp": "2026-04-14T11:20:00Z",
+            "type": "send_money",
+            "amount": 5000,
+            "counterparty": "+8801812345678",
+            "status": "completed"
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "ticket_id": "TKT-003",
+    "complaint": "I tried to cash out 3,000 Taka from a local BRAC Bank ATM. The machine showed a timeout error and didn't dispense cash, but the amount was debited from my wallet.",
+    "language": "en",
+    "channel": "call_center",
+    "user_type": "customer",
+    "transaction_history": [
+        {
+            "transaction_id": "TXN-9205",
+            "timestamp": "2026-04-15T10:15:00Z",
+            "type": "cash_out",
+            "amount": 3000,
+            "counterparty": "ATM-BRAC-042",
+            "status": "completed"
+        }
+    ]
+}
